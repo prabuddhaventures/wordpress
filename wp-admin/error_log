@@ -1,0 +1,1 @@
+[12-Jan-2013 04:34:22] PHP Warning:  file_get_contents(http:) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: No such file or directory in /home/enukes/public_html/prabuddha/wp-includes/class-feed.php on line 88

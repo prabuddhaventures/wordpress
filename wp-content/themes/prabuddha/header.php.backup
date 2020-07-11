@@ -1,0 +1,146 @@
+<?php
+/**
+ * The Header for our theme.
+ *
+ * Displays all of the <head> section and everything up till <div id="main">
+ *
+ * @package WordPress
+ * @subpackage Twenty_Ten
+ * @since Twenty Ten 1.0
+ */
+?><!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+    <head>
+        <meta charset="<?php bloginfo('charset'); ?>" />
+        <title><?php
+/*
+ * Print the <title> tag based on what is being viewed.
+ */
+global $page, $paged;
+
+wp_title('|', true, 'right');
+
+// Add the blog name.
+bloginfo('name');
+
+// Add the blog description for the home/front page.
+$site_description = get_bloginfo('description', 'display');
+if ($site_description && ( is_home() || is_front_page() ))
+    echo " | $site_description";
+
+// Add a page number if necessary:
+if ($paged >= 2 || $page >= 2)
+    echo ' | ' . sprintf(__('Page %s', 'twentyten'), max($paged, $page));
+?></title>
+        <link rel="profile" href="http://gmpg.org/xfn/11" />
+        <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo('stylesheet_url'); ?>" />
+        <link href="<?php bloginfo('stylesheet_directory'); ?>/css/style.css" rel="stylesheet" type="text/css" />
+        <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
+
+        <link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/css/themes/light/light.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/css/themes/dark/dark.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/css/themes/bar/bar.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/css/nivo-slider.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/css/css/style_banner.css" type="text/css" media="screen" />
+
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+        <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/script.js"></script>    
+
+        <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery.nivo.slider.js"></script>
+
+
+        <script type="text/javascript">
+            $(window).load(function() {
+                $('#slider').nivoSlider();
+            
+            });
+        
+            function imageClicked(img) {
+                document.forms["searchform"].submit();
+            }
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function () {	
+	
+                $('#nav li').hover(
+                function () {
+                    //show its submenu
+                    $('ul', this).slideDown(100);
+
+                }, 
+                function () {
+                    //hide its submenu
+                    $('ul', this).slideUp(100);			
+                }
+            );
+	
+            });
+        </script>
+
+
+        <?php
+        /* We add some JavaScript to pages with the comment form
+         * to support sites with threaded comments (when in use).
+         */
+        if (is_singular() && get_option('thread_comments'))
+            wp_enqueue_script('comment-reply');
+
+        /* Always have wp_head() just before the closing </head>
+         * tag of your theme, or you will break many plugins, which
+         * generally use this hook to add elements to <head> such
+         * as styles, scripts, and meta tags.
+         */
+        wp_head();
+        ?>
+    </head>
+    <body>
+        <div class="main">
+            <div class="header">
+                <div class="header_top">
+                    <div class="logo"><a href="<?php echo home_url('/'); ?>">
+                            <img src="<?php bloginfo('template_url'); ?>/images/logo.png" title="Home" alt="img" /></a></div>
+                    <div class="header_top_right">
+                    <span style=" float: right; margin-right: 5px; margin-top: -39px;">
+			<?php  dynamic_sidebar( 'social-link-widget-area' ); ?>                          
+                    </span>             
+                        <div class="in_put"> 
+                            <form action="<?php echo home_url('/'); ?>" name="searchform" id="searchform" method="get" >
+                                <input type="text"  name="s" class="header_input"/>
+                                <div class="search_icon">
+                                    <input type="image" src="<?php bloginfo('template_url'); ?>/images/search_icon.png"  name="submit"  onclick="imageClicked(this)"/>
+
+                                </div>                                  
+                            </form> 
+
+                        </div>
+
+                        <div class="home_icon"><a href="<?php echo home_url('/'); ?>"><img src="<?php bloginfo('template_url'); ?>/images/home_icon.png" alt="img" /></a></div>
+                    </div> 
+                </div>
+                <div class="header_bottom">
+                    <div style="width:100%; height:auto; float:left; background:url(<?php bloginfo('template_url'); ?>/images/top_nav_bg.jpg) repeat-x;">
+                        <div id="menu-container" class="mymenu" >
+                            <?php wp_nav_menu(array('menu' => 'header_menu', 'items_wrap' => '<ul id="nav">%3$s</ul>', 'theme_location' => 'primary')); ?>            
+                        </div>           
+                    </div>      
+                    <div class="banner_nav">
+                        <div class="banner_nav_left"> 
+
+                            <div class="breadcrumbs">
+                                <?php
+                                if (!is_home() && !is_front_page()) {
+                                    if (function_exists('bcn_display')) {
+                                        bcn_display();
+                                    }
+                                }
+                                ?>
+                            </div>            	
+
+
+                        </div>
+                        <div class="banner_nav_right">
+                        </div>
+                    </div>
+                </div>
+            </div> 
